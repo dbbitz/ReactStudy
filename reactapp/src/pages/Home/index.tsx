@@ -1,7 +1,28 @@
+import React, { useState } from 'react'
 import './styles.css'
 import { Card } from '../../components/Card'
 
-export default function App() {
+
+export default function home() {
+
+  //Estado, [Variavel, funcao que altera a variavel]
+  const [studentName, setStudentName]:any = useState();
+  const [students, setStudents]:any = useState([]);
+
+
+  function handleAddStudent(){
+    const newStudent:any = {
+      name: studentName,
+      time: new Date().toLocaleTimeString("pt-br", {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      })
+    }
+    setStudents((prevState:any) => [...prevState, newStudent])
+  }
+
+
   return (
     //Fragment
     <div className='container'>
@@ -10,13 +31,16 @@ export default function App() {
       <input 
         type="text" 
         placeholder="Digite o nome..." 
-        onChange={e => e.target.value}
+        onChange = {e => setStudentName(e.target.value)}
       />
 
-      <button type="button">Adicionar</button>
+      <button type="button" onClick={handleAddStudent}>Adicionar</button>
 
-      <Card name="Daniel Barbosa" time="10:30:23" />
-      <Card name="João Silva" time="12:25:21" />
+    {
+      students.map((student:any) => <Card name={student.name} time={student.time} />)
+      
+    }
+      
 
     </div>
   )
